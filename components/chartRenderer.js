@@ -2,7 +2,7 @@
 export default ({width, height}) => {
   const xScale = () => {
     return d3.time.scale()
-            .range([0, width]);
+            .range([0, width])
   };
 
   const yScale = () => {
@@ -34,7 +34,9 @@ export default ({width, height}) => {
   }
 
   const xMapData = (data) => {
-    _xScale.domain(d3.extent(data, d => d.time));;
+    _xScale
+      .domain(d3.extent(data, d => d.time));
+      //.nice(d3.time.day)
   }
 
   const yMapData = (data) => {
