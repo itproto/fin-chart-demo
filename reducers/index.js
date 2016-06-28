@@ -3,13 +3,16 @@ import { combineReducers } from 'redux';
 import {
   REQUEST_DATA, 
   RECEIVE_DATA, 
-  SELECT_STOCK
+  SELECT_STOCK,
+  SELECT_EXCHANGE
 } from '../actions';
 
 const initState = {
   selectedData: [],
+  exchangeData: [],
   data: {
-    stocks: []
+    stocks: [],
+    exchanges: []
   }
 };
 
@@ -36,6 +39,16 @@ export default (state=initState, action) => {
       return clone(state, {
          selectedData,
          selectedStock: action.stock
+      });
+
+    case SELECT_EXCHANGE:
+      const exchangeData = state.data.data.filter(d => {
+        return d.exchange === action.exchange;
+      });
+      
+      return clone(state, {
+         exchangeData,
+         selectedExchange: action.exchange
       });
     default:
       return state;

@@ -3,11 +3,19 @@ import d3 from 'd3';
 export const REQUEST_DATA = 'REQUEST_DATA';
 export const RECEIVE_DATA = 'RECEIVE_DATA';
 export const SELECT_STOCK = 'SELECT_STOCK';
+export const SELECT_EXCHANGE = 'SELECT_EXCHANGE';
 
 export function selectStock(stock){
   return {
     type: SELECT_STOCK,
     stock
+  };
+}
+
+export function selectExchange(exchange){
+  return {
+    type: SELECT_EXCHANGE,
+    exchange
   };
 }
 
@@ -43,6 +51,9 @@ export function fetchData() {
 
         const selectedSym = srcData.stocks[0].sym;
         dispatch(selectStock(selectedSym));
+
+        const selectedExchange = srcData.exchanges[0].mic;
+        dispatch(selectExchange(selectedExchange));
     });
   };
 }

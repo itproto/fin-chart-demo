@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Chart from './../components/Chart';
-import {fetchData, selectStock} from './../actions';
+import PriceChart from './../components/PriceChart';
+import VolumeChart from './../components/VolumeChart';
+import {fetchData, selectStock, selectExchange} from './../actions';
 
 class App extends Component {
 
@@ -17,18 +18,25 @@ class App extends Component {
       width: 700
     };
 
-    const {selectedData, stocks, selectedStock, onStockSelect} = this.props;
+    const {selectedData, exchangeData, stocks, exchanges, 
+      selectedStock, selectedExchange, onStockSelect, onExchangeSelect} = this.props;
 
     return (
       <div style={chartStyle}>
         <select onChange={e => onStockSelect(e.target.value)} value={selectedStock}>
-        {stocks.map((stock) => {
-             return <option value={stock.sym} key={stock.sym}>{stock.name}</option>;
-          })
-        }
+          {stocks.map((stock) => {
+               return <option value={stock.sym} key={stock.sym}>{stock.name}</option>;
+            })
+          }
         </select>
-
-        <Chart data={selectedData}  />
+        <select onChange={e => onExchangeSelect(e.target.value)} value={selectedExchange}>
+          {exchanges.map((exchange) => {
+               return <option value={exchange.mic} key={exchange.mic}>{exchange.name}</option>;
+            })
+          }
+        </select>
+        <PriceChart data={selectedData}  />
+        <VolumeChart data={exchangeData}  />
       </div>
     );
   }
@@ -38,7 +46,9 @@ class App extends Component {
 const mapStateToProps = (state) => {
     return {
        selectedData: state.selectedData,
-       stocks: state.data.stocks
+       exchangeData: state.exchangeData,
+       stocks: state.data.stocks,
+       exchanges: state.data.exchanges
     };
 };
 
@@ -48,6 +58,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(selectStock(stock));
     },
 
+    onExchangeSelect: (exchange) => {
+      dispatch(selectExchange(exchange));
+    },
     fetchData: () => {
       dispatch(fetchData());
     }

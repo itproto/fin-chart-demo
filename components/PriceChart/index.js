@@ -5,8 +5,8 @@ import utils from './chartRenderer';
 
 export default class Chart extends React.Component {
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super(...arguments);
   }
 
   componentDidMount(){
